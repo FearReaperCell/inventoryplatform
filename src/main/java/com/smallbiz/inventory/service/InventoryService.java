@@ -93,6 +93,17 @@ public class InventoryService {
         );
     }
 
+    // 🔥 NEW: LOW STOCK ALERT (ADDED HERE)
+    if (saved.getQuantityOnHand() <= saved.getReorderPoint()) {
+
+        emailService.sendAlert(
+            "Low Stock Alert",
+            "Item " + saved.getName() +
+            " is low on stock.\nCurrent Quantity: " + saved.getQuantityOnHand() +
+            "\nReorder Point: " + saved.getReorderPoint()
+        );
+    }
+
     return saved;
   }
 
@@ -142,7 +153,7 @@ public class InventoryService {
 
     txns.save(new StockTransaction(item, StockTxnType.STOCK_OUT, -amount, byUser, note));
 
-    // ✅ LOW STOCK ALERT
+    // ✅ LOW STOCK ALERT (already correct)
     if (item.getQuantityOnHand() <= item.getReorderPoint()) {
 
         emailService.sendAlert(
@@ -158,7 +169,6 @@ public class InventoryService {
     return txns.findTop50ByOrderByCreatedAtDesc();
   }
 
-  // 🔥 FIXED METHOD (THIS IS THE IMPORTANT PART)
   public List<ReorderSuggestion> reorderSuggestions() {
 
     return items.findAll().stream()
@@ -169,7 +179,6 @@ public class InventoryService {
                 i.getMaxStockLevel() - i.getQuantityOnHand()
             );
 
-            // ✅ FIXED SUPPLIER NAME LOGIC
             String supplierName = "Unknown Supplier";
 
             if (i.getPreferredSupplier() != null &&
@@ -184,7 +193,7 @@ public class InventoryService {
                 i.getQuantityOnHand(),
                 i.getReorderPoint(),
                 reorderAmount,
-                supplierName, // ✅ FIXED HERE
+                supplierName,
                 i.getLocation(),
                 i.getUnitCost()
             );

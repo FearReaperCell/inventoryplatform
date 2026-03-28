@@ -18,12 +18,11 @@ spring:
   thymeleaf:
     cache: false
 
-  # Optional: configure if you want real email notifications.
   mail:
     host: smtp.gmail.com
     port: 587
-    username: YOUR_EMAIL@gmail.com
-    password: ornc qvbx jvza ixlt
+    username: orinpakks01@gmail.com
+    password: myif hqvx hans gnfc
     properties:
       mail:
         smtp:
@@ -33,17 +32,5 @@ spring:
 
 inventory:
   alert:
-    recipients: ""
+    recipients: orionpakks01@gmail.com,zachary.rguerra@my.trident.edu
     low-stock-check-minutes: 2
-    spring:
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: YOUR_EMAIL@gmail.com
-    password: ornc qvbx jvza ixlt
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
