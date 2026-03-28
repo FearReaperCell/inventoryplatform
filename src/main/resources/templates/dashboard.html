@@ -14,7 +14,6 @@ background:#f4f6f9;
 }
 
 /* HEADER */
-
 .header{
 background:#111827;
 color:white;
@@ -30,7 +29,6 @@ font-size:20px;
 }
 
 /* NAV */
-
 .nav{
 background:white;
 padding:15px 30px;
@@ -48,8 +46,7 @@ color:#111827;
 color:#2563eb;
 }
 
-/* MAIN CONTAINER */
-
+/* MAIN */
 .container{
 padding:30px;
 max-width:1200px;
@@ -57,7 +54,6 @@ margin:auto;
 }
 
 /* STATS */
-
 .stats{
 display:grid;
 grid-template-columns:repeat(4,1fr);
@@ -85,7 +81,6 @@ font-weight:bold;
 }
 
 /* SECTIONS */
-
 .section{
 margin-top:40px;
 }
@@ -96,7 +91,6 @@ font-size:18px;
 }
 
 /* TABLE */
-
 table{
 width:100%;
 border-collapse:collapse;
@@ -135,36 +129,23 @@ color:#888;
 
 <body>
 
-<!-- HEADER -->
-
 <div class="header">
-
 <h1>Inventory Management System</h1>
-
 <a href="/logout" style="color:white;text-decoration:none;">Logout</a>
-
 </div>
 
-<!-- NAVIGATION -->
-
 <div class="nav">
-
 <a href="/">Dashboard</a>
 <a href="/admin/items">Manage Items</a>
 <a href="/admin/reports/activity">Activity</a>
 <a href="/admin/reports/expiring">Expiring</a>
 <a href="/scanner">Barcode Scanner</a>
-
 </div>
-
-<!-- MAIN -->
 
 <div class="container">
 
-<!-- DASHBOARD STATS -->
-
+<!-- STATS -->
 <div class="stats">
-
 <div class="card">
 <h3>Total Items</h3>
 <p th:text="${totalItems}">0</p>
@@ -187,26 +168,21 @@ color:#888;
 
 <div class="card">
 <h3>Total Inventory Value</h3>
-<p>
-$<span th:text="${totalValue != null ? #numbers.formatDecimal(totalValue,1,2) : '0.00'}"></span>
-</p>
+<p>$<span th:text="${totalValue != null ? #numbers.formatDecimal(totalValue,1,2) : '0.00'}"></span></p>
 </div>
-
 </div>
 
 <!-- LOW STOCK -->
-
 <div class="section">
-
 <h2>Low Stock Items</h2>
 
 <table>
-
 <tr>
 <th>SKU</th>
 <th>Name</th>
 <th>Quantity</th>
 <th>Location</th>
+<th>Supplier</th>
 </tr>
 
 <tr th:each="item : ${lowStock}">
@@ -214,36 +190,34 @@ $<span th:text="${totalValue != null ? #numbers.formatDecimal(totalValue,1,2) : 
 <td th:text="${item.name}"></td>
 <td th:text="${item.quantityOnHand}"></td>
 <td th:text="${item.location}"></td>
+<td th:text="${item.preferredSupplier != null ? item.preferredSupplier.name : 'N/A'}"></td>
 </tr>
 
 <tr th:if="${#lists.isEmpty(lowStock)}">
-<td colspan="4" class="empty">No low stock items</td>
+<td colspan="5" class="empty">No low stock items</td>
 </tr>
-
 </table>
 
 <div style="margin-top: 15px; text-align: right;">
-    <a href="/admin/reports/reorder"
-       style="background-color: black; color: white; padding: 8px 16px; border-radius: 5px; text-decoration: none;">
-        Reorder Low Stock Items
-    </a>
+<a href="/admin/reports/reorder"
+style="background-color: black; color: white; padding: 8px 16px; border-radius: 5px; text-decoration: none;">
+Reorder Low Stock Items
+</a>
 </div>
 
 </div>
 
 <!-- SURPLUS -->
-
 <div class="section">
-
 <h2>Surplus Inventory</h2>
 
 <table>
-
 <tr>
 <th>SKU</th>
 <th>Name</th>
 <th>Quantity</th>
 <th>Location</th>
+<th>Supplier</th>
 </tr>
 
 <tr th:each="item : ${surplusStock}">
@@ -251,45 +225,45 @@ $<span th:text="${totalValue != null ? #numbers.formatDecimal(totalValue,1,2) : 
 <td th:text="${item.name}"></td>
 <td th:text="${item.quantityOnHand}"></td>
 <td th:text="${item.location}"></td>
+<td th:text="${item.preferredSupplier != null ? item.preferredSupplier.name : 'N/A'}"></td>
 </tr>
 
 <tr th:if="${#lists.isEmpty(surplusStock)}">
-<td colspan="4" class="empty">No surplus inventory</td>
+<td colspan="5" class="empty">No surplus inventory</td>
 </tr>
-
 </table>
 
 </div>
 
 </div>
 
-<!-- 🔔 POPUP ALERT -->
+<!-- POPUP ALERT -->
 <div id="popupAlert" th:if="${alertMessage}" 
-     style="position: fixed; top: 20px; right: 20px; 
-            background-color: #dc3545; color: white; 
-            padding: 15px 20px; border-radius: 10px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
-            z-index: 9999; font-weight: bold;">
+style="position: fixed; top: 20px; right: 20px; 
+background-color: #dc3545; color: white; 
+padding: 15px 20px; border-radius: 10px; 
+box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+z-index: 9999; font-weight: bold;">
 
-    <span th:text="${alertMessage}"></span>
+<span th:text="${alertMessage}"></span>
 
-    <button onclick="closePopup()" 
-            style="margin-left: 15px; background: white; 
-                   color: black; border: none; 
-                   padding: 5px 10px; border-radius: 5px; cursor: pointer;">
-        X
-    </button>
+<button onclick="closePopup()" 
+style="margin-left: 15px; background: white; 
+color: black; border: none; 
+padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+X
+</button>
 </div>
 
 <script>
-    function closePopup() {
-        document.getElementById("popupAlert").style.display = "none";
-    }
+function closePopup() {
+document.getElementById("popupAlert").style.display = "none";
+}
 
-    setTimeout(function() {
-        let popup = document.getElementById("popupAlert");
-        if (popup) popup.style.display = "none";
-    }, 5000);
+setTimeout(function() {
+let popup = document.getElementById("popupAlert");
+if (popup) popup.style.display = "none";
+}, 5000);
 </script>
 
 </body>

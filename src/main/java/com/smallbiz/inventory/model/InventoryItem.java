@@ -74,7 +74,7 @@ public class InventoryItem {
     private LocalDate expirationDate;
 
   @ManyToOne(fetch = FetchType.EAGER)
-@JoinColumn(name = "supplier_id")
+@JoinColumn(name = "preferred_supplier_id")
 private Supplier preferredSupplier;
 
     @Column(nullable = false)
