@@ -93,7 +93,7 @@ public class InventoryService {
         );
     }
 
-    // 🔥 NEW: LOW STOCK ALERT (ADDED HERE)
+    // ✅ LOW STOCK ALERT (update case)
     if (saved.getQuantityOnHand() <= saved.getReorderPoint()) {
 
         emailService.sendAlert(
@@ -142,6 +142,9 @@ public class InventoryService {
 
     InventoryItem item = getOrThrow(itemId);
 
+    // 🔥 TEST EMAIL (FOR DEBUGGING — REMOVE LATER)
+    emailService.sendAlert("TEST EMAIL", "If you see this, email works");
+
     int newQty = item.getQuantityOnHand() - amount;
 
     if (newQty < 0) {
@@ -153,8 +156,10 @@ public class InventoryService {
 
     txns.save(new StockTransaction(item, StockTxnType.STOCK_OUT, -amount, byUser, note));
 
-    // ✅ LOW STOCK ALERT (already correct)
+    // ✅ LOW STOCK ALERT
     if (item.getQuantityOnHand() <= item.getReorderPoint()) {
+
+        System.out.println("EMAIL TRIGGERED");
 
         emailService.sendAlert(
             "Low Stock Alert",
