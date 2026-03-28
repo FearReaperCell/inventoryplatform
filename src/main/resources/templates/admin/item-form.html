@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Item Form</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .error {
+      color: #b00020;
+    }
+
+    .row {
+      margin-bottom: 12px;
+    }
+
+    input, textarea, select {
+      width: 420px;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    textarea {
+      height: 80px;
+    }
+
+    button {
+      padding: 10px 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 th:text="${item.id == null ? 'Create Item' : 'Edit Item'}"></h2>
+
+<p>
+  <a th:href="@{/admin/items}">Back</a>
+</p>
+
+<div th:if="${error}">
+  <p class="error" th:text="${error}"></p>
+</div>
+
+<form th:action="${item.id == null} ? @{/admin/items} : @{/admin/items/{id}(id=${item.id})}"
+      th:object="${item}" method="post">
+
+  <!-- SKU -->
+  <div class="row">
+    <label>SKU</label><br/>
+    <input th:field="*{sku}"/>
+    <div class="error"
+         th:if="${#fields.hasErrors('sku')}"
+         th:errors="*{sku}">
+    </div>
+  </div>
+
+  <!-- Barcode -->
+  <div class="row">
+    <label>Barcode</label><br/>
+    <input th:field="*{barcode}" readonly/>
+  </div>
+
+  <!-- Name -->
+  <div class="row">
+    <label>Name</label><br/>
+    <input th:field="*{name}"/>
+    <div class="error"
+         th:if="${#fields.hasErrors('name')}"
+         th:errors="*{name}">
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class="row">
+    <label>Description</label><br/>
+    <textarea th:field="*{description}"></textarea>
+  </div>
+
+  <!-- Quantity -->
+  <div class="row">
+    <label>Quantity On Hand</label><br/>
+    <input type="number" min="0" th:field="*{quantityOnHand}"/>
+  </div>
+
+  <!-- Reorder Point -->
+  <div class="row">
+    <label>Reorder Point (LOW threshold)</label><br/>
+    <input type="number" min="0" th:field="*{reorderPoint}"/>
+  </div>
+
+  <!-- Reorder Quantity -->
+  <div class="row">
+    <label>Reorder Quantity (suggested)</label><br/>
+    <input type="number" min="0" th:field="*{reorderQuantity}"/>
+  </div>
+
+  <!-- Location -->
+  <div class="row">
+    <label>Location (Aisle/Bin)</label><br/>
+    <input th:field="*{location}"/>
+    <div class="error"
+         th:if="${#fields.hasErrors('location')}"
+         th:errors="*{location}">
+    </div>
+  </div>
+
+  <!-- Max Stock -->
+  <div class="row">
+    <label>Max Stock Level (SURPLUS threshold)</label><br/>
+    <input type="number" min="0" th:field="*{maxStockLevel}"/>
+  </div>
+
+  <!-- Unit Cost -->
+  <div class="row">
+    <label>Unit Cost</label><br/>
+    <input type="number" min="0" step="0.01" th:field="*{unitCost}"/>
+  </div>
+
+  <!-- Expiration -->
+  <div class="row">
+    <label>Expiration Date</label><br/>
+    <input type="date" th:field="*{expirationDate}"/>
+  </div>
+
+  <!-- Supplier -->
+  <div class="row">
+    <label>Preferred Supplier</label><br/>
+
+    <select th:field="*{preferredSupplier}">
+      <option value="">(none)</option>
+
+      <option th:each="s : ${suppliers}"
+              th:value="${s}"
+              th:text="${s.name}">
+      </option>
+    </select>
+  </div>
+
+  <!-- Save -->
+  <div class="row">
+    <button type="submit">Save</button>
+  </div>
+
+</form>
+
+</body>
+</html>

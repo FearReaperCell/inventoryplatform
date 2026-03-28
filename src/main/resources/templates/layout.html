@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title th:replace="${title}">Inventory System</title>
+
+<link rel="stylesheet" href="/css/app.css">
+
+</head>
+
+<body>
+
+<div class="header">
+
+<h1>Inventory Management System</h1>
+
+<div>
+
+<a href="/">Dashboard</a>
+<a href="/admin/items">Items</a>
+<a href="/admin/reports/activity">Activity</a>
+<a href="/admin/reports/reorder">Reorder</a>
+<a href="/admin/reports/expiring">Expiring</a>
+<a href="/scanner">Scanner</a>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<div th:replace="${content}">
+</div>
+
+</div>
+
+</body>
+
+</html>

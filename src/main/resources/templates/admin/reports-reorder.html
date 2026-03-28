@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Reorder Items</title>
+
+<style>
+body { font-family: Arial, sans-serif; margin: 30px; }
+
+table { border-collapse: collapse; width: 100%; }
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    background: #f5f5f5;
+}
+
+.empty {
+    color: #666;
+    font-style: italic;
+}
+
+.back {
+    margin-bottom:20px;
+    display:inline-block;
+    text-decoration:none;
+    font-weight:bold;
+    color:#111827;
+}
+
+.download {
+    margin-bottom: 15px;
+    text-align: right;
+}
+</style>
+
+</head>
+
+<body>
+
+<a class="back" th:href="@{/}">
+← Dashboard
+</a>
+
+<h2>Reorder Items</h2>
+
+<!-- ✅ DOWNLOAD BUTTON -->
+<div class="download">
+    <a th:href="@{/admin/reports/reorder/pdf}"
+       style="background-color:black; color:white; padding:10px 16px; border-radius:5px; text-decoration:none;">
+        Download Reorder Report
+    </a>
+</div>
+
+<!-- ✅ TABLE -->
+<table>
+
+<thead>
+<tr>
+    <th>SKU</th>
+    <th>Name</th>
+    <th>On Hand</th>
+    <th>Reorder Point</th>
+    <th>Reorder Amount</th>
+    <th>Unit Cost</th>
+    <th>Total Cost</th>
+    <th>Location in Store</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr th:each="s : ${suggestions}">
+    <td th:text="${s.sku}"></td>
+    <td th:text="${s.name}"></td>
+    <td th:text="${s.qtyOnHand}"></td>
+    <td th:text="${s.reorderPoint}"></td>
+    <td th:text="${s.reorderQty}"></td>
+    <td th:text="${s.unitCost}"></td>
+    <td th:text="${s.unitCost * s.reorderQty}"></td>
+    <td th:text="${s.location}"></td>
+</tr>
+
+<tr th:if="${#lists.isEmpty(suggestions)}">
+    <td colspan="8" class="empty">
+        No items need reordering.
+    </td>
+</tr>
+
+</tbody>
+
+</table>
+
+<!-- ✅ TOTAL COST (FIXED POSITION) -->
+<div style="margin-top:20px; text-align:right; font-size:18px; font-weight:bold;">
+    Total Reorder Cost:
+   <span th:text="${#numbers.formatDecimal(totalCost, 1, 2)}">0.00</span>
+
+</body>
+</html>

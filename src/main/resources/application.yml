@@ -1,0 +1,49 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/inventory_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+  thymeleaf:
+    cache: false
+
+  # Optional: configure if you want real email notifications.
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: YOUR_EMAIL@gmail.com
+    password: ornc qvbx jvza ixlt
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+inventory:
+  alert:
+    recipients: ""
+    low-stock-check-minutes: 2
+    spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: YOUR_EMAIL@gmail.com
+    password: ornc qvbx jvza ixlt
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

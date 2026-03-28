@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Add Item</title>
+
+<style>
+body{
+font-family:Arial;
+background:#f4f6f9;
+margin:40px;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:10px;
+max-width:500px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:1px solid #ddd;
+border-radius:6px;
+}
+
+button{
+padding:10px 16px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="/" style="font-weight:bold; text-decoration:none;">← Dashboard</a>
+
+<h2>Add Inventory Item</h2>
+
+<form th:action="@{/admin/items/save}" th:object="${item}" method="post">
+
+<input type="hidden" th:field="*{id}">
+
+<label>SKU</label>
+<input type="text" th:field="*{sku}">
+
+<label>Name</label>
+<input type="text" th:field="*{name}">
+
+<label>Barcode</label>
+<input type="text" th:field="*{barcode}">
+
+<label>Quantity</label>
+<input type="number" th:field="*{quantityOnHand}">
+
+<label>Location</label>
+<input type="text" th:field="*{location}">
+
+<label>Expiration Date</label>
+<input type="date" th:field="*{expirationDate}">
+
+<button type="submit">Update Item</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

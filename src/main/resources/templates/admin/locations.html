@@ -1,0 +1,291 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Locations / Bins</title>
+
+<style>
+:root{ --bg:#f6f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --border:#e5e7eb;
+--shadow:0 14px 40px rgba(16,24,40,.08); --shadow2:0 8px 20px rgba(16,24,40,.06);
+--radius:18px; --accent:#111827;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+
+.topbar{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.9);
+backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:1200px;margin:0 auto;padding:12px 16px;
+display:grid;grid-template-columns:1.2fr 1.6fr 1fr;gap:12px;align-items:center;}
+
+.left,.right{display:flex;align-items:center;gap:10px;}
+
+.brand{font-weight:900;letter-spacing:-.3px;display:flex;align-items:center;gap:10px;}
+.logo{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,#111827,#4f46e5);}
+
+.dropdown{position:relative;}
+.dropbtn{border:1px solid var(--border);background:#fff;border-radius:999px;
+padding:8px 12px;font-weight:800;cursor:pointer;box-shadow:var(--shadow2);}
+
+.menu{display:none;position:absolute;top:46px;left:0;min-width:240px;background:#fff;
+border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;}
+
+.dropdown:hover .menu{display:block;}
+
+.menu a{display:block;padding:11px 12px;text-decoration:none;color:var(--text);font-weight:650;}
+.menu a:hover{background:#f3f4f6;}
+
+.menu.wide{min-width:760px;padding:10px;display:none;gap:10px;}
+.dropdown:hover .menu.wide{display:flex;}
+
+.col{width:180px;padding:8px;border-radius:14px;background:#fafafa;border:1px solid #f0f0f0;}
+.col h4{margin:6px 6px 10px;font-size:12px;color:var(--muted);text-transform:uppercase;}
+
+.search{display:flex;align-items:center;width:min(760px,100%);
+margin:0 auto;background:#fff;border:1px solid var(--border);
+border-radius:999px;overflow:hidden;box-shadow:var(--shadow2);}
+
+.search input{border:none;padding:10px 12px;flex:1;outline:none;font-size:14px;}
+.search button{border:none;padding:10px 14px;font-weight:900;cursor:pointer;background:var(--accent);color:#fff;}
+
+.clock{font-weight:900;font-variant-numeric:tabular-nums;padding:8px 10px;border-radius:999px;
+border:1px solid var(--border);background:#fff;min-width:120px;text-align:center;}
+
+.wrap{max-width:1200px;margin:16px auto 32px;padding:0 16px;}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+.card{background:var(--card);border:1px solid var(--border);
+border-radius:var(--radius);box-shadow:var(--shadow2);overflow:hidden;}
+
+.card-h{padding:14px;border-bottom:1px solid var(--border);}
+.title{font-size:16px;font-weight:950;}
+.subtitle{font-size:13px;color:var(--muted);font-weight:650;}
+
+.card-b{padding:14px;}
+
+.row{display:flex;gap:10px;flex-wrap:wrap;}
+
+.input{border:1px solid var(--border);border-radius:12px;padding:10px 12px;outline:none;font-weight:650;}
+
+.btn{border:none;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer;background:#111827;color:#fff;}
+
+.btn.ghost{background:#fff;color:#111827;border:1px solid var(--border);}
+
+table{width:100%;border-collapse:collapse;}
+
+th,td{padding:10px;border-bottom:1px solid #f0f0f0;font-size:13.5px;}
+
+th{font-size:12px;color:var(--muted);font-weight:900;text-transform:uppercase;background:#fafafa;}
+
+@media(max-width:980px){
+.topbar-inner{grid-template-columns:1fr;}
+.grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+<div class="topbar-inner">
+
+<div class="left">
+<div class="brand">
+<div class="logo"></div>
+<div>
+<div style="font-size:14px;font-weight:950;">Inventory Portal</div>
+<div style="font-size:12px;color:var(--muted);font-weight:700;">Locations / Bins</div>
+</div>
+</div>
+
+<div class="dropdown">
+<button class="dropbtn">Menu ▾</button>
+
+<div class="menu wide">
+
+<div class="col">
+<h4>Inventory</h4>
+<a th:href="@{/admin/items}">Items</a>
+<a th:href="@{/admin/items/new}">Add Item</a>
+<a th:href="@{/categories}">Categories</a>
+<a th:href="@{/locations}">Locations / Bins</a>
+<a th:href="@{/low-stock}">Low Stock</a>
+</div>
+
+<div class="col">
+<h4>Movements</h4>
+<a th:href="@{/stock/in}">Stock In</a>
+<a th:href="@{/stock/out}">Stock Out</a>
+<a th:href="@{/transfers}">Transfers</a>
+<a th:href="@{/adjustments}">Adjustments</a>
+</div>
+
+<div class="col">
+<h4>Reports</h4>
+<a th:href="@{/admin/reports/reorder}">Reorder</a>
+<a th:href="@{/admin/reports/reorder.pdf}">Download PDF</a>
+<a th:href="@{/admin/reports/activity}">Activity Log</a>
+<a th:href="@{/admin/reports/expiring}">Expiring Soon</a>
+</div>
+
+<div class="col">
+<h4>Warehouse</h4>
+<a th:href="@{/warehouse/floor}">Floor Tracker</a>
+<a th:href="@{/warehouse/receiving}">Receiving</a>
+<a th:href="@{/warehouse/putaway}">Putaway</a>
+<a th:href="@{/warehouse/cycle-count}">Cycle Counts</a>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="topbar-center">
+<div class="search">
+<input id="locSearch" type="text" placeholder="Search locations / bins…"/>
+<button id="locSearchBtn" type="button">Search</button>
+</div>
+</div>
+
+<div class="right" style="justify-content:flex-end;">
+<div class="clock" id="liveClock">--:--:--</div>
+
+<div class="dropdown">
+<button class="dropbtn">
+<span th:text="${#authentication.name}">user</span> ▾
+</button>
+
+<div class="menu" style="right:0;left:auto;">
+<a th:href="@{/profile}">Profile</a>
+<a th:href="@{/settings}">Settings</a>
+<div class="sep"></div>
+<a th:href="@{/logout}">Logout</a>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="wrap">
+
+<div class="grid">
+
+<div class="card">
+<div class="card-h">
+<div class="title">Locations</div>
+</div>
+
+<div class="card-b">
+
+<div class="row" style="margin-bottom:12px;">
+<input class="input" placeholder="Warehouse (Main)"/>
+<input class="input" placeholder="Aisle (A2)"/>
+<button class="btn">Add Location</button>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Warehouse</th>
+<th>Aisle</th>
+<th>Notes</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody id="locTable">
+<tr>
+<td><strong>Main</strong></td>
+<td>A1</td>
+<td class="subtitle">Fast movers</td>
+<td><button class="btn ghost">Edit</button></td>
+</tr>
+
+<tr>
+<td><strong>Main</strong></td>
+<td>A2</td>
+<td class="subtitle">Cables</td>
+<td><button class="btn ghost">Edit</button></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+<div class="card">
+
+<div class="card-h">
+<div class="title">Bins</div>
+</div>
+
+<div class="card-b">
+
+<div class="row" style="margin-bottom:12px;">
+<input class="input" placeholder="Location (Main / A2)"/>
+<input class="input" placeholder="Bin (BIN-01)"/>
+<button class="btn">Add Bin</button>
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Location</th>
+<th>Bin</th>
+<th>Capacity</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody id="binTable">
+
+<tr>
+<td><strong>Main / A2</strong></td>
+<td>BIN-01</td>
+<td>50</td>
+<td><button class="btn ghost">Edit</button></td>
+</tr>
+
+<tr>
+<td><strong>Main / A2</strong></td>
+<td>BIN-02</td>
+<td>30</td>
+<td><button class="btn ghost">Edit</button></td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+function updateClock(){
+const now=new Date();
+const hh=String(now.getHours()).padStart(2,"0");
+const mm=String(now.getMinutes()).padStart(2,"0");
+const ss=String(now.getSeconds()).padStart(2,"0");
+document.getElementById("liveClock").textContent=`${hh}:${mm}:${ss}`;
+}
+updateClock();
+setInterval(updateClock,1000);
+
+function filterTable(inputId,tableId){
+const q=(document.getElementById(inputId).value||"").toLowerCase();
+document.querySelectorAll(`#${tableId} tr`).forEach(tr=>{
+tr.style.display=tr.innerText.toLowerCase().includes(q)?"":"none";
+});
+}
+
+document.getElementById("locSearchBtn")
+.addEventListener("click",()=>filterTable("locSearch","locTable"));
+</script>
+
+</body>
+</html>

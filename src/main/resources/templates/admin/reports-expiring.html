@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+<title>Expiring Soon</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+margin: 30px;
+background:#f4f6f9;
+}
+
+h2{
+margin-bottom:20px;
+}
+
+table{
+border-collapse: collapse;
+width: 100%;
+background:white;
+}
+
+th, td{
+border: 1px solid #ddd;
+padding: 10px;
+text-align:left;
+}
+
+th{
+background:#f1f1f1;
+}
+
+.empty{
+color:#666;
+font-style: italic;
+text-align:center;
+}
+
+.back{
+margin-bottom:20px;
+display:inline-block;
+text-decoration:none;
+font-weight:bold;
+color:#111827;
+}
+
+</style>
+
+</head>
+<body> 
+<a class="back" th:href="@{/}">
+← Dashboard
+</a>
+<body>
+
+<h2>Items Expiring Soon</h2>
+
+<p>
+
+</p>
+
+<table>
+
+<thead>
+<tr>
+<th>SKU</th>
+<th>Name</th>
+<th>Expiration Date</th>
+<th>Quantity</th>
+<th>Location</th>
+</tr>
+</thead>
+
+
+<tbody>
+
+<tr th:each="item : ${items}">
+    <td th:text="${item.sku}"></td>
+    <td th:text="${item.name}"></td>
+    <td th:text="${item.expirationDate}"></td>
+    <td th:text="${item.quantityOnHand}"></td>
+    <td th:text="${item.location}"></td>
+</tr>
+</tr>
+
+<tr th:if="${#lists.isEmpty(items)}">
+<td colspan="5" class="empty">
+No items with expiration dates found.
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</body>
+
+</html>

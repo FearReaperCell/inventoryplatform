@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="/css/app.css">
+
+<head>
+<title>Admin Items</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+margin:40px;
+}
+
+table{
+border-collapse: collapse;
+width:100%;
+}
+
+th, td{
+padding:10px;
+border:1px solid #ddd;
+text-align:left;
+}
+
+th{
+background:#f4f4f4;
+}
+
+a.button{
+display:inline-block;
+padding:8px 12px;
+background:#111827;
+color:white;
+text-decoration:none;
+border-radius:5px;
+}
+
+.edit-btn{
+padding:6px 10px;
+background:#2563eb;
+color:white;
+border-radius:4px;
+text-decoration:none;
+}
+
+.delete-btn{
+padding:6px 10px;
+background:#dc2626;
+color:white;
+border-radius:4px;
+text-decoration:none;
+margin-left:6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<a href="/" style="color:black; font-weight:600;">
+← Dashboard
+</a>
+
+<h1>Inventory Items</h1>
+
+<p>
+<a class="button" th:href="@{/admin/items/new}">
+New Item
+</a>
+</p>
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>SKU</th>
+<th>Barcode</th>
+<th>Name</th>
+<th>Quantity</th>
+<th>Location</th>
+<th>Expiration Date</th>
+<th>Supplier</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr th:each="item : ${items}">
+
+<td th:text="${item.id}"></td>
+<td th:text="${item.sku}"></td>
+<td th:text="${item.barcode}"></td>
+<td th:text="${item.name}"></td>
+<td th:text="${item.quantityOnHand}"></td>
+<td th:text="${item.location}"></td>
+<td th:text="${item.expirationDate}"></td>
+
+<td>
+<a th:href="@{/admin/items/{id}/edit(id=${item.id})}" class="edit-btn">Edit</a>
+
+<a th:href="@{/admin/items/{id}/delete(id=${item.id})}"
+   class="delete-btn"
+   onclick="return confirm('Delete this item?');">
+Delete
+</a>
+<td th:text="${item.preferredSupplier != null ? item.preferredSupplier.name : 'N/A'}"></td>
+
+
+</tr>
+
+</tbody>
+
+</table>
+
+</body>
+</html>

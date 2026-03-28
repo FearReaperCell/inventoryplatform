@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="UTF-8">
+<title>Search Results</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    margin:30px;
+}
+
+table{
+    border-collapse: collapse;
+    width:100%;
+}
+
+th, td{
+    border:1px solid #ddd;
+    padding:10px;
+}
+
+th{
+    background:#f5f5f5;
+}
+
+.back{
+    display:inline-block;
+    margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Search Results</h2>
+
+<p th:if="${query}">
+Results for: <strong th:text="${query}"></strong>
+</p>
+
+<table th:if="${items != null and !items.isEmpty()}">
+
+<tr>
+<th>SKU</th>
+<th>Name</th>
+<th>Barcode</th>
+<th>Quantity</th>
+<th>Location</th>
+</tr>
+
+<tr th:each="item : ${items}">
+<td th:text="${item.sku}"></td>
+<td th:text="${item.name}"></td>
+<td th:text="${item.barcode}"></td>
+<td th:text="${item.quantityOnHand}"></td>
+<td th:text="${item.location}"></td>
+</tr>
+
+</table>
+
+<p th:if="${items == null or items.isEmpty()}">
+No items found.
+</p>
+
+<a class="back" th:href="@{/}">Back to Dashboard</a>
+
+</body>
+</html>

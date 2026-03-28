@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Inventory Activity</title>
+
+<style>
+
+body{
+font-family:Segoe UI, Arial, sans-serif;
+margin:0;
+background:#f4f6f9;
+}
+
+/* HEADER */
+
+.header{
+background:#111827;
+color:white;
+padding:18px 30px;
+font-size:20px;
+font-weight:600;
+}
+
+/* CONTAINER */
+
+.container{
+padding:30px;
+max-width:1000px;
+margin:auto;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #eee;
+text-align:left;
+}
+
+th{
+background:#f9fafb;
+}
+
+tr:hover{
+background:#f9fafb;
+}
+
+.back{
+margin-bottom:20px;
+display:inline-block;
+font-weight:bold;
+text-decoration:none;
+color:#111827;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+Recent Activity
+</div>
+
+<div class="container">
+
+<a href="/" class="back">← Back to Dashboard</a>
+
+<h2>Recent Activity</h2>
+
+<table>
+
+<tr>
+<th>Time</th>
+<th>SKU</th>
+<th>Item</th>
+<th>Type</th>
+<th>Amount</th>
+<th>User</th>
+</tr>
+
+<tr th:each="a : ${activities}">
+    <td th:text="${a.timestamp}"></td>
+    <td th:text="${a.username}"></td>
+    <td th:text="${a.action}"></td>
+    <td th:text="${a.details}"></td>
+</tr>
+
+</table>
+
+</div>
+
+<script>
+
+/* Auto refresh page every 5 seconds */
+
+setInterval(function(){
+location.reload();
+},5000);
+
+</script>
+
+</body>
+</html>

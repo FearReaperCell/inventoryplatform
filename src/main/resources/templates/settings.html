@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="UTF-8">
+<title>System Settings</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f6f7fb;
+    margin:0;
+}
+
+.container{
+    max-width:900px;
+    margin:40px auto;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+h2{
+    margin-top:0;
+}
+
+.row{
+    margin-bottom:15px;
+}
+
+label{
+    font-weight:bold;
+    display:block;
+    margin-bottom:5px;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:5px;
+}
+
+button{
+    padding:10px 14px;
+    background:#111827;
+    color:white;
+    border:none;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.back{
+    display:inline-block;
+    margin-bottom:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a class="back" th:href="@{/}">← Back to Dashboard</a>
+
+<div class="card">
+
+<h2>System Settings</h2>
+
+<!-- Default Warehouse -->
+<div class="row">
+<label>Default Warehouse</label>
+<select>
+<option>Main</option>
+<option>Warehouse A</option>
+<option>Warehouse B</option>
+</select>
+</div>
+
+<!-- Low Stock Alert -->
+<div class="row">
+<label>Low Stock Alert Threshold</label>
+<input type="number" value="10">
+</div>
+
+<!-- Email Alerts -->
+<div class="row">
+<label>Alert Email Recipients</label>
+<input placeholder="manager@company.com, supervisor@company.com">
+</div>
+
+<!-- Barcode Scanner Mode -->
+<div class="row">
+<label>Scanner Mode</label>
+<select>
+<option>USB Scanner</option>
+<option>Camera Scanner</option>
+</select>
+</div>
+
+<!-- Theme -->
+<div class="row">
+<label>Dashboard Theme</label>
+<select>
+<option>Light</option>
+<option>Dark</option>
+</select>
+</div>
+
+<div class="row">
+<button type="button">Save Settings</button>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="UTF-8">
+<title>User Profile</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f6f7fb;
+    margin:0;
+}
+
+.container{
+    max-width:900px;
+    margin:40px auto;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+h2{
+    margin-top:0;
+}
+
+.row{
+    margin-bottom:15px;
+}
+
+label{
+    font-weight:bold;
+    display:block;
+    margin-bottom:5px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:5px;
+}
+
+button{
+    padding:10px 14px;
+    background:#111827;
+    color:white;
+    border:none;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.back{
+    display:inline-block;
+    margin-bottom:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a class="back" th:href="@{/}">← Back to Dashboard</a>
+
+<div class="card">
+
+<h2>User Profile</h2>
+
+<div class="row">
+<label>Username</label>
+<input th:value="${#authentication.name}" readonly>
+</div>
+
+<div class="row">
+<label>Role</label>
+<input th:value="${#authentication.authorities}" readonly>
+</div>
+
+<div class="row">
+<label>Email</label>
+<input placeholder="user@email.com">
+</div>
+
+<div class="row">
+<label>Phone</label>
+<input placeholder="555-123-4567">
+</div>
+
+<div class="row">
+<button type="button">Update Profile</button>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

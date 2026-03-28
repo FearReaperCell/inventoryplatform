@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="/css/app.css">
+<head>
+
+<meta charset="UTF-8">
+<title>Barcode Result</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:40px;
+}
+
+.card{
+border:1px solid #ddd;
+padding:20px;
+width:400px;
+background:white;
+}
+
+.notfound{
+color:red;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Barcode Scan Result</h2>
+
+<a href="/scanner">Scan Another</a>
+
+<div th:if="${item != null}" class="card">
+
+<p><b>SKU:</b> <span th:text="${item.sku}"></span></p>
+<p><b>Name:</b> <span th:text="${item.name}"></span></p>
+<p><b>Quantity:</b> <span th:text="${item.quantityOnHand}"></span></p>
+<p><b>Location:</b> <span th:text="${item.location}"></span></p>
+
+</div>
+
+<div th:if="${item == null}" class="notfound">
+
+Item not found for barcode:
+<span th:text="${barcode}"></span>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Low Stock</title>
+</head>
+<body>
+
+<h2>Low Stock Items</h2>
+
+<p><a th:href="@{/}">Back to Dashboard</a></p>
+
+<table border="1" cellpadding="8">
+    <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Name</th>
+            <th>Qty On Hand</th>
+            <th>Reorder Point</th>
+            <th>Location</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="item : ${items}"
+            th:if="${item.quantityOnHand <= item.reorderPoint}">
+            <td th:text="${item.sku}"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.quantityOnHand}"></td>
+            <td th:text="${item.reorderPoint}"></td>
+            <td th:text="${item.location}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<div th:if="${#lists.isEmpty(items)}">
+    <p>No inventory items found.</p>
+</div>
+
+</body>
+</html>

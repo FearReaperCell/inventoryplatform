@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Edit Item</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    margin:40px;
+}
+
+input{
+    display:block;
+    margin-bottom:10px;
+    padding:8px;
+    width:300px;
+}
+
+button{
+    padding:10px 14px;
+    background:#111827;
+    color:white;
+    border:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Edit Item</h2>
+
+<form th:action="@{/admin/items/save}" th:object="${item}" method="post">
+<input type="hidden" th:field="*{id}">
+<label>SKU</label>
+<input type="text" th:field="*{sku}" required>
+
+<label>Name</label>
+<input type="text" th:field="*{name}" required>
+
+<label>Barcode</label>
+<input type="text" th:field="*{barcode}">
+
+<label>Quantity</label>
+<input type="number" th:field="*{quantityOnHand}">
+
+<label>Location</label>
+<input type="text" th:field="*{location}">
+
+<label>Expiration Date</label>
+<input type="date" th:field="*{expirationDate}">
+
+<button type="submit">Save Item</button>
+
+</form>
+<br>
+
+<a href="/admin/items">Back to Items</a>
+
+</body>
+</html>
