@@ -17,12 +17,13 @@ public class InventoryService {
 
   private final InventoryItemRepository items;
   private final StockTransactionRepository txns;
-
-  // ✅ ADDED
   private final EmailService emailService;
 
-  // ✅ UPDATED CONSTRUCTOR
-  public InventoryService(InventoryItemRepository items, StockTransactionRepository txns, EmailService emailService) {
+  public InventoryService(
+      InventoryItemRepository items,
+      StockTransactionRepository txns,
+      EmailService emailService
+  ) {
     this.items = items;
     this.txns = txns;
     this.emailService = emailService;
@@ -81,7 +82,7 @@ public class InventoryService {
 
     InventoryItem saved = items.save(existing);
 
-    // ✅ ADDED — EXPIRATION ALERT
+    // ✅ EXPIRATION ALERT
     if (saved.getExpirationDate() != null &&
         saved.getExpirationDate().isBefore(java.time.LocalDate.now().plusDays(14))) {
 
@@ -141,7 +142,7 @@ public class InventoryService {
 
     txns.save(new StockTransaction(item, StockTxnType.STOCK_OUT, -amount, byUser, note));
 
-    // ✅ ADDED — LOW STOCK ALERT
+    // ✅ LOW STOCK ALERT
     if (item.getQuantityOnHand() <= item.getReorderPoint()) {
 
         emailService.sendAlert(
@@ -157,14 +158,25 @@ public class InventoryService {
     return txns.findTop50ByOrderByCreatedAtDesc();
   }
 
+  // 🔥 FIXED METHOD (THIS IS THE IMPORTANT PART)
   public List<ReorderSuggestion> reorderSuggestions() {
 
     return items.findAll().stream()
         .filter(i -> i.getQuantityOnHand() <= i.getReorderPoint())
         .map(i -> {
+
             int reorderAmount = Math.max(0,
                 i.getMaxStockLevel() - i.getQuantityOnHand()
             );
+
+            // ✅ FIXED SUPPLIER NAME LOGIC
+            String supplierName = "Unknown Supplier";
+
+            if (i.getPreferredSupplier() != null &&
+                i.getPreferredSupplier().getName() != null) {
+
+                supplierName = i.getPreferredSupplier().getName();
+            }
 
             return new ReorderSuggestion(
                 i.getSku(),
@@ -172,9 +184,7 @@ public class InventoryService {
                 i.getQuantityOnHand(),
                 i.getReorderPoint(),
                 reorderAmount,
-                i.getPreferredSupplier() != null
-                    ? i.getPreferredSupplier().getName()
-                    : "(not set)",
+                supplierName, // ✅ FIXED HERE
                 i.getLocation(),
                 i.getUnitCost()
             );
