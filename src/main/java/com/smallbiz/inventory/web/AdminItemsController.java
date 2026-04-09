@@ -49,16 +49,14 @@ public String newItem(@RequestParam(required = false) String barcode, Model mode
 
     
 
-    // Save new item
-  @PostMapping("/save")
+    @PostMapping("/save")
 public String saveItem(@ModelAttribute InventoryItem item, Model model) {
 
     try {
+        if (item.getId() != null) {
+            InventoryItem existing = itemRepo.findById(item.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid item ID"));
 
-        InventoryItem existing = itemRepo.findById(item.getId()).orElse(null);
-
-        if (existing != null) {
-            // Update existing item
             existing.setSku(item.getSku());
             existing.setName(item.getName());
             existing.setBarcode(item.getBarcode());
@@ -67,17 +65,14 @@ public String saveItem(@ModelAttribute InventoryItem item, Model model) {
             existing.setExpirationDate(item.getExpirationDate());
 
             itemRepo.save(existing);
-
         } else {
-            // New item
             itemRepo.save(item);
         }
 
         return "redirect:/admin/items";
 
     } catch (Exception e) {
-
-        model.addAttribute("message", "Item with this SKU already exists in the system.");
+        model.addAttribute("message", "Unable to save item: " + e.getMessage());
         return "item-error";
     }
 }
